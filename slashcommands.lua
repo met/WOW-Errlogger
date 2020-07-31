@@ -29,6 +29,20 @@ SLASH_ERLOG3 = "/errorlogger";
 SlashCmdList["ERLOG"] = function(msg)
 	if msg == "" or msg =="help" then
 		NS.printUsage();
+
+	-- sent some test messages for easy debugging
+	elseif msg == "test" then
+		logError("Myaddon", time(), "Some error message.");
+		logError("Myaddon", time(), "Other error message.", " With ", 5, " parameters", ".");
+		logWarning("Myaddon2", time(), "Some warning message.");
+		logInfo("Myaddon3", time(), "Some info message.");
+		logDebug("Myaddon4", time(), "Some debug message.");
+
+	elseif msg == "clear" then
+		NS.log = {};
+		NS.updateBrokers();
+	else
+		print("Unknown parameter.");
 	end
 end
 
@@ -37,7 +51,6 @@ NS.mainCmd = SLASH_ERLOG1;
 function NS.printUsage()
 		print(NS.c.Yellow, addonName, "usage:");
 		print(NS.c.Yellow, NS.mainCmd, "help -- this message");
-		--print(cYellow, NS.mainCmd, "debug -- set debug on");
-		--print(cYellow, NS.mainCmd, "/diy nodebug -- set debug off");
-		--print(cYellow, NS.mainCmd, "debug? -- show current debug state");
+		print(NS.c.Yellow, NS.mainCmd, "clear -- delete all messages in log");
+		print(NS.c.Yellow, NS.mainCmd, "test -- create some test log messages");
 end

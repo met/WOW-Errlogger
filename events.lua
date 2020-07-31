@@ -60,6 +60,8 @@ function events.ADDON_LOADED(...)
 	NS.sharedData = ErrlogSharedData;
 	NS.settings = ErrlogSettings;
 	NS.data = ErrlogData;
+
+	NS.updateBrokers();
 end
 
 

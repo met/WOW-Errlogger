@@ -29,4 +29,11 @@ NS.c.Red = "\124cFFFF0000";
 NS.c.LightBlue = "\124cFFadd8e6";
 NS.c.Green1 = "\124cFF38FFBE";
 
+NS.c.debug = NS.c.White;
+NS.c.info = NS.c.LightBlue;
+NS.c.warning = NS.c.Red;
+NS.c.error = NS.c.Red;
+
 NS.msgPrefix = NS.c.Yellow.."["..addonName.."] "..NS.c.White;
+
+NS.log = {};

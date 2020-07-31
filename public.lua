@@ -22,34 +22,55 @@ SOFTWARE.
 
 local addonName, NS = ...;
 
-function logError(...)
-		local msgAddonName, msgTimestamp = ...;
-		local msgContent = {select(3, ...)};
+-- ARGS: addonname, timestamp, ...
+function logError(msgAddonName, msgTimestamp, ...)
 		local msgReadableTime = date(nil, msgTimestamp);
 
-		print(NS.c.Red, "[ERROR]", msgAddonName, msgReadableTime, "#", unpack(msgContent));
+		-- concat all message arguments "..." into one string
+		-- this is the best way that I have found, transform "..." into table and concat that table
+		-- possible problem: if there is any nil argument inside "..." then all arguments after nil are omitted
+		local msgContent = table.concat({...});
+		local level = "error";
+
+		print(NS.c[level], "[ERROR]", msgAddonName, "#", msgContent);
+		table.insert(NS.log, { addon = msgAddonName, level = level, timestamp = msgTimestamp, date = msgReadableTime, content = msgContent});
+
+		NS.updateBrokerAllCount();
+		NS.updateBrokerErrorCount();
 end
 
-function logWarning(...)
-		local msgAddonName, msgTimestamp = ...;
-		local msgContent = {select(3, ...)};
+function logWarning(msgAddonName, msgTimestamp, ...)
 		local msgReadableTime = date(nil, msgTimestamp);
+		local msgContent = table.concat({...});
+		local level = "warning";
 
-		print(NS.c.Red, "[WARNING]", msgAddonName, msgReadableTime, "#", unpack(msgContent));
+		print(NS.c[level], "[WARNING]", msgAddonName, "#", msgContent);
+		table.insert(NS.log, { addon = msgAddonName, level = level, timestamp = msgTimestamp, date = msgReadableTime, content = msgContent});
+
+		NS.updateBrokerAllCount();
+		NS.updateBrokerWarningCount();
 end
 
-function logInfo(...)
-		local msgAddonName, msgTimestamp = ...;
-		local msgContent = {select(3, ...)};
+function logInfo(msgAddonName, msgTimestamp, ...)
 		local msgReadableTime = date(nil, msgTimestamp);
+		local msgContent = table.concat({...});
+		local level = "info";
 
-		print(NS.c.LightBlue, "[INFO]", msgAddonName, msgReadableTime, "#", unpack(msgContent));	
+		print(NS.c[level], "[INFO]", msgAddonName, "#", msgContent);
+		table.insert(NS.log, { addon = msgAddonName, level = level, timestamp = msgTimestamp, date = msgReadableTime, content = msgContent});
+
+		NS.updateBrokerAllCount();
+		NS.updateBrokerInfoCount();
 end
 
-function logDebug(...)
-		local msgAddonName, msgTimestamp = ...;
-		local msgContent = {select(3, ...)};
+function logDebug(msgAddonName, msgTimestamp, ...)
 		local msgReadableTime = date(nil, msgTimestamp);
+		local msgContent = table.concat({...});
+		local level = "debug";
 
-		print(NS.c.LightBlue, "[DEBUG]", msgAddonName, msgReadableTime, "#", unpack(msgContent));
+		print(NS.c[level], "[DEBUG]", msgAddonName, "#", msgContent);
+		table.insert(NS.log, { addon = msgAddonName, level = level, timestamp = msgTimestamp, date = msgReadableTime, content = msgContent});
+
+		NS.updateBrokerAllCount();
+		NS.updateBrokerDebugCount();
 end
