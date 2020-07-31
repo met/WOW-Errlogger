@@ -22,14 +22,26 @@ SOFTWARE.
 
 local addonName, NS = ...;
 
+
+-- concatenate sequence into one string
+function NS.concat(...)
+	local v = select(1, ...);
+
+	if select("#", ...) > 1 then
+		return tostring(v).." "..NS.concat(select(2, ...));
+	else
+		return tostring(v);
+	end
+end
+
 -- ARGS: addonname, timestamp, ...
-function logError(msgAddonName, msgTimestamp, ...)
+function logError(msgAddonName, ...)
+		local msgTimestamp = time();
 		local msgReadableTime = date(nil, msgTimestamp);
 
 		-- concat all message arguments "..." into one string
-		-- this is the best way that I have found, transform "..." into table and concat that table
-		-- possible problem: if there is any nil argument inside "..." then all arguments after nil are omitted
-		local msgContent = table.concat({...});
+		-- I tried "msgContent = table.concat({...})", but that failed on boolen arguments
+		local msgContent = NS.concat(...);
 		local level = "error";
 
 		print(NS.c[level], "[ERROR]", msgAddonName, "#", msgContent);
@@ -39,9 +51,10 @@ function logError(msgAddonName, msgTimestamp, ...)
 		NS.updateBrokerErrorCount();
 end
 
-function logWarning(msgAddonName, msgTimestamp, ...)
+function logWarning(msgAddonName, ...)
+		local msgTimestamp = time();
 		local msgReadableTime = date(nil, msgTimestamp);
-		local msgContent = table.concat({...});
+		local msgContent = NS.concat(...);
 		local level = "warning";
 
 		print(NS.c[level], "[WARNING]", msgAddonName, "#", msgContent);
@@ -51,9 +64,10 @@ function logWarning(msgAddonName, msgTimestamp, ...)
 		NS.updateBrokerWarningCount();
 end
 
-function logInfo(msgAddonName, msgTimestamp, ...)
+function logInfo(msgAddonName, ...)
+		local msgTimestamp = time();
 		local msgReadableTime = date(nil, msgTimestamp);
-		local msgContent = table.concat({...});
+		local msgContent = NS.concat(...);
 		local level = "info";
 
 		print(NS.c[level], "[INFO]", msgAddonName, "#", msgContent);
@@ -63,9 +77,10 @@ function logInfo(msgAddonName, msgTimestamp, ...)
 		NS.updateBrokerInfoCount();
 end
 
-function logDebug(msgAddonName, msgTimestamp, ...)
+function logDebug(msgAddonName, ...)
+		local msgTimestamp = time();
 		local msgReadableTime = date(nil, msgTimestamp);
-		local msgContent = table.concat({...});
+		local msgContent = NS.concat(...);
 		local level = "debug";
 
 		print(NS.c[level], "[DEBUG]", msgAddonName, "#", msgContent);

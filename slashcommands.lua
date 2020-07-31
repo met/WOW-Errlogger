@@ -32,11 +32,13 @@ SlashCmdList["ERLOG"] = function(msg)
 
 	-- sent some test messages for easy debugging
 	elseif msg == "test" then
-		logError("Myaddon", time(), "Some error message.");
-		logError("Myaddon", time(), "Other error message.", " With ", 5, " parameters", ".");
-		logWarning("Myaddon2", time(), "Some warning message.");
-		logInfo("Myaddon3", time(), "Some info message.");
-		logDebug("Myaddon4", time(), "Some debug message.");
+		logError("Myaddon", "Some error message.");
+		logError("Myaddon", "Other error message.", "With", 5, "parameters", ".");
+		logWarning("Myaddon2", "Some warning message.");
+		logWarning("Myaddon2", "Another warning message.", "With boolens", false, true, ".");
+		logWarning("Myaddon2", "Warning message.", "With nil:", nil, "And even some text after nil.");
+		logInfo("Myaddon3", "Some info message.");
+		logDebug("Myaddon4", "Some debug message.");
 
 	elseif msg == "clear" then
 		NS.log = {};
