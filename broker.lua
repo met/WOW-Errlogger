@@ -53,7 +53,7 @@ function NS.updateBrokerErrorCount()
 		end
 	end
 
-	brokers.error.text = count;
+	brokers.error.text = NS.c.error .. count;
 end
 
 function NS.updateBrokerWarningCount()
@@ -69,7 +69,7 @@ function NS.updateBrokerWarningCount()
 		end
 	end
 
-	brokers.warning.text = count;
+	brokers.warning.text = NS.c.warning .. count;
 end
 
 function NS.updateBrokerInfoCount()
@@ -85,7 +85,7 @@ function NS.updateBrokerInfoCount()
 		end
 	end
 
-	brokers.info.text = count;
+	brokers.info.text = NS.c.info .. count;
 end
 
 function NS.updateBrokerDebugCount()
@@ -101,7 +101,7 @@ function NS.updateBrokerDebugCount()
 		end
 	end
 
-	brokers.debug.text = count;
+	brokers.debug.text = NS.c.debug .. count;
 end
 
 -- update text for all brokers
@@ -132,23 +132,31 @@ end
 -- List of WOW UI icons: https://github.com/Gethe/wow-ui-textures/tree/live/ICONS
 
 brokers.all = ldb:NewDataObject(addonName.."-all", {
-	type = "launcher",
+	type = "data source",
+	text = "0",
 	icon = "Interface\\Icons\\INV_Feather_06",
 });
 
 
 function brokers.all:OnTooltipShow()
-	self:AddLine(addonName.." v"..GetAddOnMetadata(addonName, "version"));
+	self:AddLine(addonName.." v"..GetAddOnMetadata(addonName, "version").." all");
 	self:AddLine(" ");
 
+	local verbose = IsShiftKeyDown();
+
 	for _, msg in ipairs(NS.log) do
-		self:AddLine(NS.c[msg.level]..msg.addon .. " # " .. msg.content);
+		if verbose == true then
+			self:AddLine(NS.c[msg.level]..msg.addon .. ", " .. msg.date .. " # " .. msg.content);
+		else
+			self:AddLine(NS.c[msg.level]..msg.addon .. " # " .. msg.content);
+		end
 	end
 end
 
 
 brokers.error = ldb:NewDataObject(addonName.."-error", {
-	type = "launcher",
+	type = "data source",
+	text = "0",
 	icon = "Interface\\Icons\\INV_Feather_07",
 });
 
@@ -165,7 +173,8 @@ end
 
 
 brokers.warning = ldb:NewDataObject(addonName.."-warning", {
-	type = "launcher",
+	type = "data source",
+	text = "0",
 	icon = "Interface\\Icons\\INV_Feather_10",
 });
 
@@ -181,7 +190,8 @@ function brokers.warning:OnTooltipShow()
 end
 
 brokers.info = ldb:NewDataObject(addonName.."-info", {
-	type = "launcher",
+	type = "data source",
+	text = "0",
 	icon = "Interface\\Icons\\INV_Feather_11",
 });
 
@@ -197,7 +207,8 @@ function brokers.info:OnTooltipShow()
 end
 
 brokers.debug = ldb:NewDataObject(addonName.."-debug", {
-	type = "launcher",
+	type = "data source",
+	text = "0",
 	icon = "Interface\\Icons\\INV_Feather_05",
 });
 

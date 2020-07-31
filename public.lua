@@ -23,7 +23,9 @@ SOFTWARE.
 local addonName, NS = ...;
 
 
--- concatenate sequence into one string
+-- Concatenate sequence into one string.
+-- build-in table.concat() works for tables containing only strings and numbers, not for booleans or nil
+-- this concat works even for such tables
 function NS.concat(...)
 	local v = select(1, ...);
 
@@ -34,7 +36,7 @@ function NS.concat(...)
 	end
 end
 
--- ARGS: addonname, timestamp, ...
+
 function logError(msgAddonName, ...)
 		local msgTimestamp = time();
 		local msgReadableTime = date(nil, msgTimestamp);
@@ -44,7 +46,9 @@ function logError(msgAddonName, ...)
 		local msgContent = NS.concat(...);
 		local level = "error";
 
-		print(NS.c[level], "[ERROR]", msgAddonName, "#", msgContent);
+		if NS.settings.console == true then
+			print(NS.c[level], "[ERROR]", msgAddonName, "#", msgContent);
+		end
 		table.insert(NS.log, { addon = msgAddonName, level = level, timestamp = msgTimestamp, date = msgReadableTime, content = msgContent});
 
 		NS.updateBrokerAllCount();
@@ -57,7 +61,9 @@ function logWarning(msgAddonName, ...)
 		local msgContent = NS.concat(...);
 		local level = "warning";
 
-		print(NS.c[level], "[WARNING]", msgAddonName, "#", msgContent);
+		if NS.settings.console == true then
+			print(NS.c[level], "[WARNING]", msgAddonName, "#", msgContent);
+		end
 		table.insert(NS.log, { addon = msgAddonName, level = level, timestamp = msgTimestamp, date = msgReadableTime, content = msgContent});
 
 		NS.updateBrokerAllCount();
@@ -70,7 +76,9 @@ function logInfo(msgAddonName, ...)
 		local msgContent = NS.concat(...);
 		local level = "info";
 
-		print(NS.c[level], "[INFO]", msgAddonName, "#", msgContent);
+		if NS.settings.console == true then
+			print(NS.c[level], "[INFO]", msgAddonName, "#", msgContent);
+		end
 		table.insert(NS.log, { addon = msgAddonName, level = level, timestamp = msgTimestamp, date = msgReadableTime, content = msgContent});
 
 		NS.updateBrokerAllCount();
@@ -83,7 +91,9 @@ function logDebug(msgAddonName, ...)
 		local msgContent = NS.concat(...);
 		local level = "debug";
 
-		print(NS.c[level], "[DEBUG]", msgAddonName, "#", msgContent);
+		if NS.settings.console == true then
+			print(NS.c[level], "[DEBUG]", msgAddonName, "#", msgContent);
+		end
 		table.insert(NS.log, { addon = msgAddonName, level = level, timestamp = msgTimestamp, date = msgReadableTime, content = msgContent});
 
 		NS.updateBrokerAllCount();

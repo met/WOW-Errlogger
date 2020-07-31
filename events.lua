@@ -27,7 +27,7 @@ local events = {};
 
 
 local function setDefaultSettings(setts)
-	setts.debug = false;
+	setts.console = false;
 end
 
 function events.ADDON_LOADED(...)
