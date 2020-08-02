@@ -34,6 +34,7 @@ SlashCmdList["ERLOG"] = function(msg)
 	elseif msg == "clear" then
 		NS.log = {};
 		NS.updateBrokers();
+		print(NS.msgPrefix, "Log was cleared.");
 	elseif msg == "console" then
 		NS.settings.console = true;
 		print(NS.msgPrefix, "Console log is on.");
@@ -43,7 +44,7 @@ SlashCmdList["ERLOG"] = function(msg)
 	elseif msg == "console?" then
 		print(NS.msgPrefix, "console=", NS.settings.console);
 	else
-		print("Unknown parameter:", msg);
+		print(NS.msgPrefix, "Unknown parameter:", msg);
 	end
 end
 
