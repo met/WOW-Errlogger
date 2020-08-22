@@ -27,6 +27,8 @@ SLASH_ERLOG1 = "/erlog";
 SLASH_ERLOG2 = "/errorlog";
 SLASH_ERLOG3 = "/errorlogger";
 SlashCmdList["ERLOG"] = function(msg)
+	local msg = string.lower(msg);
+
 	if msg == "" or msg =="help" then
 		NS.printUsage();
 	elseif msg == "test" then -- sent some test messages for easy debugging
